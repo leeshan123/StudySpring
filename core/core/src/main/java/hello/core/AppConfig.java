@@ -18,23 +18,32 @@ public class AppConfig {
 
     //여기서 구체적인걸 넣어주고 나머지는 추상적인 인터페이스에만 의존한다
     //역할이 다 드러난다.
+
+    //@Bean memberService -> new memberRepository()
+    //@Bean orderServie -> new memberRepository();
     @Bean
     public MemberService memberService(){
-        return new MemberServiceImpl(MemberRepository());
+        System.out.println("call AppConfig.memberService");
+        return new MemberServiceImpl(memberRepository());
     }
     @Bean
-    public MemberRepository MemberRepository() {
+    public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
     @Bean
     public OrderService orderService(){
-        return new OrderServiceImpl(MemberRepository(), discountPolicy());
+        System.out.println("call AppConfig.orderService");
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
     @Bean
     public DiscountPolicy discountPolicy(){
 //        return new FixDiscountPolicy();
         return new RateDiscountPolicy();
     }
+
+
+
 
 
 
